@@ -12,7 +12,7 @@ riff function create hello-boot-fun-web-pojo --handler hello \
 ## Deploy
 
 ```
-riff core deployer create hello --function-ref hello-boot-fun-web-pojo \
+riff knative deployer create hello --function-ref hello-boot-fun-web-pojo \
   --ingress-policy External \
   --env spring_main_web_application_type=NONE \
   --tail
@@ -21,14 +21,14 @@ riff core deployer create hello --function-ref hello-boot-fun-web-pojo \
 ## Invoke
 
 ```
-ingress=$(kubectl get svc/nginx-ingress-controller -n nginx-ingress -ojsonpath='{.status.loadBalancer.ingress[0].ip}')
+ingress=$(kubectl get svc envoy-external --namespace projectcontour --output 'jsonpath={.status.loadBalancer.ingress[0].ip}')
 curl ${ingress} -H 'Host: hello.default.example.com' -H 'Content-Type: application/json' -H 'Accept: text/plain' -d '{"type": "test", "name": "riff"}' && echo
 ```
 
 ## Teardown
 
 ```
-riff core deployer delete hello
+riff knative deployer delete hello
 riff function delete hello-boot-fun-web-pojo
 ```
 

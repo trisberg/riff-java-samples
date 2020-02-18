@@ -8,6 +8,9 @@ public class Greeting {
 
 	private String message;
 
+	public Greeting() {
+	}
+
 	public Greeting(String type, String message) {
 		this.type = type;
 		this.message = message;
