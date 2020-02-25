@@ -1,0 +1,15 @@
+apiVersion: eventing.knative.dev/v1alpha1
+kind: Trigger
+metadata:
+  name: k8s-events-trigger
+  namespace: default
+spec:
+  broker: default
+  filter:
+    attributes:
+      type: dev.knative.apiserver.resource.add
+  subscriber:
+    ref:
+      apiVersion: serving.knative.dev/v1
+      kind: Route
+      name: k8s-event-fun
